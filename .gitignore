@@ -1,0 +1,9 @@
+config/*
+dist/*
+npm-debug.log
+node_modules
+.vscode
+.idea
+.DS_Store
+app.log
+docs
