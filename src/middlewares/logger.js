@@ -25,7 +25,7 @@ const fileLogger = tracer.console({
 
 async function loggerMiddleware(ctx, next) {
   const start = new Date();
-  await next;
+  await next();
   const ms = new Date() - start;
   const msg = `${ctx.method} ${ctx.url} - ${ms}ms`;
 
