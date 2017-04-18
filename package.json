@@ -14,6 +14,7 @@
     "url": "git@gitlab.saas.com:xieguodong/cooperation_association.git"
   },
   "pre-commit": [
+    "test",
     "lint"
   ],
   "author": "Leo",
