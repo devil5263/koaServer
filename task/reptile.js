@@ -84,7 +84,7 @@ async function fetchPage (url) {
       };
     })
     .catch(err => {
-      rep.err = err;
+      rep.err = err.name;
       return;
     });
   let msg = `fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
