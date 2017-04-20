@@ -7,5 +7,9 @@ module.exports = {
   log: {
     file: "app.log",
     level: "debug"
+  },
+  reptile: {
+    file: "reptile.log",
+    level: "debug"
   }
 };

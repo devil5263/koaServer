@@ -23,6 +23,15 @@ const fileLogger = tracer.console({
   }
 });
 
+const reptileLogger = tracer.console({
+  level: config.reptile.level,
+  transport: (data) => {
+    fs.appendFile(config.reptile.file, data.output + "\n", (err) => {
+        if (err) { throw err; }
+    });
+  }
+});
+
 async function loggerMiddleware(ctx, next) {
   const start = new Date();
   await next();
@@ -36,5 +45,6 @@ async function loggerMiddleware(ctx, next) {
 module.exports = {
   consoleLogger,
   fileLogger,
+  reptileLogger,
   loggerMiddleware
 };

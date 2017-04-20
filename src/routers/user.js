@@ -1,5 +1,5 @@
 const router = require("koa-router")({ prefix: "/users" });
-const { User } = require("../models");
+const User = require("../models/user");
 const ajv = require("ajv")();
 const assert = require("assert");
 const { CommonError } = require("../error");

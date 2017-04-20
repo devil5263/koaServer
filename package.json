@@ -36,6 +36,9 @@
     "pre-commit": "^1.2.2",
     "supertest": "^3.0.0",
     "tracer": "^0.8.7",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "request": "^2.81.0",
+    "cheerio": "^0.22.0",
+    "request-promise": "^4.2.0"
   }
 }
