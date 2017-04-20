@@ -1,6 +1,6 @@
 module.exports = {
   debug: true,
-  port: 8080,
+  port: 8088,
   mongo: {
     url: "mongodb://localhost:27017/lagou"
   },

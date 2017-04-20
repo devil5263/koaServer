@@ -8,6 +8,7 @@
     "Dockfile",
     "docker-compose.yml",
     "app.log",
+    "reptile.log",
     "README.md"
   ],
   "verbose": true,
