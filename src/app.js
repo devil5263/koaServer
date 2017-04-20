@@ -6,6 +6,7 @@ const betterBody = require("koa-better-body");
 const loggerMiddleware = require("./middlewares/logger").loggerMiddleware;
 const errHandler = require("./middlewares/errorHandler");
 const mongoose = require("mongoose");
+const reptile = require("../task/reptile");
 
 //middlewares
 app.use(betterBody());
@@ -21,5 +22,6 @@ app.context.db = mongoose.connection;
 app
   .use(router.routes())
   .use(router.allowedMethods());
+reptile();
 
 module.exports =  app;

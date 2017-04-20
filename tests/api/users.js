@@ -1,6 +1,6 @@
 const app = require("../../src/app");
 const request = require("supertest")(app.listen());
-const { User } = require("../../src/models");
+const User = require("../../src/models/user");
 const assert = require("assert");
 
 describe("USER APIS", () => {
