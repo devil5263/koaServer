@@ -5,11 +5,14 @@ module.exports = {
     url: "mongodb://localhost:27017/lagou"
   },
   log: {
-    file: "app.log",
+    path: ".",
+    file: "app",
     level: "debug"
   },
   reptile: {
-    file: "reptile.log",
-    level: "debug"
+    file: "reptile",
+    level: "debug",
+    start: false,
+    html: false
   }
 };

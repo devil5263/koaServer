@@ -2,6 +2,10 @@ const request = require("request-promise");
 const cheerio = require("cheerio");
 const Url = require("../src/models/url");
 const Job = require("../src/models/job");
+const fs = require("fs");
+const path = require("path");
+const process = require("process");
+const config = require("config-lite");
 const { consoleLogger, reptileLogger } = require("../src/middlewares/logger");
 
 const baseUrl = "http://www.lagou.com/jobs/";
@@ -123,10 +127,19 @@ async function fetchData (body) {
   return dataFormate(information);
 };
 
+async function saveHtml (body, index) {
+  const htmlFile = `../html/${index}.html`;
+  await fs.writeFile(htmlFile, body, (err) => {
+    if (err) { reptileLogger.info(err); }
+  });
+};
+
 async function goBaby (start) {
   while (start) {
     let url = `${baseUrl}${start}.html`;
     let isFetched = await Url.findOne({ url: url });
+
+    // consoleLogger.info(`visit ${start}`);
     if (isFetched) {
       start++;
       continue;
@@ -141,6 +154,7 @@ async function goBaby (start) {
       });
     } else {
       const data = await fetchData(resp.body);
+      if (config.reptile.html) { await saveHtml(resp.body, start); };
       await new Job(data).save();
       dbUrl.times = 1;
       dbUrl.index = start;

@@ -22,6 +22,7 @@ app.context.db = mongoose.connection;
 app
   .use(router.routes())
   .use(router.allowedMethods());
-reptile();
+
+if (config.reptile.start) { reptile(); };
 
 module.exports =  app;

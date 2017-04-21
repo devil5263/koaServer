@@ -9,7 +9,9 @@
     "docker-compose.yml",
     "app.log",
     "reptile.log",
-    "README.md"
+    "README.md",
+    "app.*.log",
+    "reptile.*.log"
   ],
   "verbose": true,
   "execMap": {
