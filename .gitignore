@@ -11,3 +11,4 @@ reptile.log
 app.log
 app.*.log
 reptile.*.log
+html
