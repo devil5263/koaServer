@@ -96,12 +96,13 @@ async function fetchPage (url) {
   return rep;
 }
 
-async function fetchData (body) {
+async function fetchData (body, index) {
   const $ =  cheerio.load(body);
   const information = { request: [], describle: [] };
   const requests = $(".position-content-l .job_request p span");
   const describes = Array.from($(".content_l .job_bt div p"));
   let flag = 1;
+  information.index = index;
   information.name = $(".position-content-l .name").text();
   information.company = $(".position-content-l .company").text();
   information.salary = $(".position-content-l .salary").text();
@@ -128,7 +129,7 @@ async function fetchData (body) {
 };
 
 async function saveHtml (body, index) {
-  const htmlFile = `../html/${index}.html`;
+  const htmlFile = `./html/${index}.html`;
   await fs.writeFile(htmlFile, body, (err) => {
     if (err) { reptileLogger.info(err); }
   });
@@ -153,7 +154,7 @@ async function goBaby (start) {
         index: start
       });
     } else {
-      const data = await fetchData(resp.body);
+      const data = await fetchData(resp.body, start);
       if (config.reptile.html) { await saveHtml(resp.body, start); };
       await new Job(data).save();
       dbUrl.times = 1;

@@ -11,7 +11,8 @@
     "reptile.log",
     "README.md",
     "app.*.log",
-    "reptile.*.log"
+    "reptile.*.log",
+    "html/**"
   ],
   "verbose": true,
   "execMap": {

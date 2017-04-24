@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const { COMMON_CONFIG } = require("./common");
 
 const schema = new Schema({
+  index: { type: Number },
   name: { type: String },
   company: { type: String },
   publish: { type: Date },
