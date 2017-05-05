@@ -166,7 +166,7 @@ async function goBaby (start) {
 };
 
 module.exports = async function () {
-  let start = await Url.find({}).sort({ "created_time": 1 }).limit(1);
+  let start = await Url.find({}).sort({ "created_at": -1 }).limit(1);
   if (start.length === 0) {
     start.push({ index: 0 });
   };
