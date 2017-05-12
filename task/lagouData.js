@@ -3,8 +3,6 @@ const cheerio = require("cheerio");
 const Url = require("../src/models/url");
 const Job = require("../src/models/job");
 const fs = require("fs");
-const path = require("path");
-const process = require("process");
 const config = require("config-lite");
 const { consoleLogger, reptileLogger } = require("../src/middlewares/logger");
 

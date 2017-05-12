@@ -10,9 +10,12 @@ module.exports = {
     level: "debug"
   },
   reptile: {
+    dynamicIp: 30, // minute
     file: "reptile",
     level: "debug",
     start: false,
-    html: false
+    html: false,
+    start: 1, // houre
+    stop: 5 // houre
   }
 };
