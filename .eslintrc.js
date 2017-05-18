@@ -2,13 +2,14 @@ module.exports = {
 	globals: {
 		Promise: true,
 		module: true,
-        require: true,
+    require: true,
 		describe: true,
 		beforeEach: true,
 		afterEach: true,
 		it: true,
 		before: true,
 		fis: true,
+		__dirname: true,
 		after: true
 	},	
 	"parser": "babel-eslint",

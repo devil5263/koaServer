@@ -7,8 +7,8 @@ routers.forEach((each) => {
   router.use(r.routes(), r.allowedMethods());
 });
 
-router.get("/", (ctx) => {
-  ctx.body = "Hello Leo This Is Your Server";
+router.get("/", async (ctx) => {
+  ctx.body = await ctx.render("index.html");
 });
 
 module.exports = router;
