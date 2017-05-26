@@ -11,7 +11,8 @@ module.exports = {
     level: "debug"
   },
   reptile: {
-    dynamicIp: 30, // minute
+    microBlog: 3, // each houre
+    dynamicIp: 30, // each minute
     file: "reptile",
     level: "debug",
     begin: false,
