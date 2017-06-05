@@ -1,13 +1,12 @@
 const path = require("path");
 
 const root = path.resolve(__dirname, "../source");
-
 module.exports = {
   entry: { // 入口文件
     app: `${root}/src/main.js`
   },
   output: { // 输出配置
-    path: `${root}/dist`,
+    path: path.resolve(__dirname, "../dist"),
     filename: "[name].js",
     publicPath: "http://localhost:8080/dist"
   },
