@@ -12,3 +12,4 @@ app.log
 app.*.log
 reptile.*.log
 html
+dist
