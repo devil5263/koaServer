@@ -7,6 +7,7 @@
     "start": "nodemon server.js",
     "watch": "webpack --config build/webpack.conf.base.js -w",
     "build": "webpack --config build/webpack.conf.prod.js",
+    "deploy": "pm2 deploy ecosystem.config.js dev setup",
     "test": "./node_modules/.bin/mocha --harmony-async-await --recursive tests",
     "lint": "./node_modules/.bin/eslint src tests",
     "docs": "apidoc -i src/routers -o docs"
