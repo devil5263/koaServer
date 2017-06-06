@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "watch": "webpack --config build/webpack.conf.js -w",
+    "watch": "webpack --config build/webpack.conf.base.js -w",
+    "build": "webpack --config build/webpack.conf.prod.js",
     "test": "./node_modules/.bin/mocha --harmony-async-await --recursive tests",
     "lint": "./node_modules/.bin/eslint src tests",
     "docs": "apidoc -i src/routers -o docs"
@@ -45,7 +46,8 @@
     "node-schedule":"1.2.1",
     "vue": "^2.3.3",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -86,6 +88,7 @@
     "vue-loader": "^11.3.4",
     "vue-style-loader": "^2.0.5",
     "vue-template-compiler": "^2.2.6",
+    "clean-webpack-plugin": "0.1.16",
     "webpack": "^2.3.3",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
