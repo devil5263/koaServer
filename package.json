@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
+    "deploy": "pm2 deploy ecosystem.config.js dev setup",
     "watch": "webpack --config build/webpack.conf.js",
     "test": "./node_modules/.bin/mocha --harmony-async-await --recursive tests",
     "lint": "./node_modules/.bin/eslint src tests",
