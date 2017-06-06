@@ -8,7 +8,7 @@ module.exports = {
   output: { // 输出配置
     path: path.resolve(__dirname, "../dist"),
     filename: "[name].js",
-    publicPath: "http://localhost:8080/dist"
+    publicPath: "/"
   },
   resolve: {
     extensions: [".js", ".vue", ".sass"],
@@ -39,12 +39,16 @@ module.exports = {
         loader: "style!css!sass"
       },
       {
+        test: /\.html/,
+        loader: "html-loader"
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: "url-loader"
+        loader: "file-loader?name=imges/[name].[ext]"
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: "url-loader"
+        loader: "file-loader?name=imges/[name].[ext]"
       }
     ]
   }
