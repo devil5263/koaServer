@@ -3,7 +3,7 @@ module.exports = {
   port: 8088,
   static: "source/",
   mongo: {
-    url: "mongodb://localhost:27017/lagou"
+    url: "mongodb://192.168.1.103:27017/lagou"
   },
   log: {
     path: ".",

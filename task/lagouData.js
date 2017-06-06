@@ -193,7 +193,6 @@ async function goBaby (start, ips) {
 
 module.exports = async function () {
   let start = await Url.find({}).sort({ "created_at": -1 }).limit(1);
-  let ips = schedule.scheduleJob(`* ${config.reptile.dynamicIp} * * * *`, await dynamicIp()).job;
   const startDate = new Date();
   const endDate = new Date(startDate.getTime() +
     (config.reptile.stop - config.reptile.start) * 3600 * 1000);
