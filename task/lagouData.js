@@ -10,7 +10,7 @@ const { getValidIp, updateIp } = require("./dynamicIp");
 const baseUrl = "http://www.lagou.com/jobs/";
 function dataFormate(data) {
   if (!data instanceof Object) {
-    consoleLogger.info("dataFormate need argument is Object");
+    reptileLogger.msg("dataFormate need argument is Object");
     return;
   };
   const newData = Object.assign({}, data);
@@ -44,7 +44,7 @@ function dataFormate(data) {
   };
   if (describle) {
     if (!describle instanceof Array) {
-      consoleLogger.info("describle need argument is Array");
+      reptileLogger.info("describle need argument is Array");
       return;
     };
     newData.describle = [];
@@ -56,7 +56,7 @@ function dataFormate(data) {
   };
   if (request) {
     if (!request instanceof Array) {
-      consoleLogger.info("request need argument is Array");
+      reptileLogger.info("request need argument is Array");
       return;
     };
     newData.request = [];
@@ -70,9 +70,8 @@ function dataFormate(data) {
 };
 
 async function fetchPage (option) {
-  console.log("fetchPage: ", option)
   let rep = {
-    url: option.url,
+    uri: option.uri,
     status: false,
     body: null,
     err: null
@@ -85,20 +84,18 @@ async function fetchPage (option) {
       if (resp.statusCode === 200) {
         rep.status = true;
         rep.body = resp.body;
-      } else {
-        return rep;
-      };
+      }
     })
     .catch(async (err) => {
-      if (option.proxy) {
-        await updateIp(option.proxy.split(":")[1].slice(2), -5);
+      if (option.proxy && err.name === "RequestError") {
+        await updateIp(option.proxy.split(":")[1].slice(2), -2);
       }
-      throw err.name;
-    }).finally(() => {
-      let msg = `fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
-      reptileLogger.info(msg);
-      return rep;
-    });
+      rep.err = err.name;
+    })
+    let msg = `proxy: ${option.proxy} fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
+    consoleLogger.info(msg);
+    reptileLogger.info(msg);
+    return rep;
 }
 
 async function fetchData (body, index) {
@@ -145,13 +142,14 @@ async function goBaby (start) {
     let ip = await getValidIp();
     const option = {
       method: "GET",
-      uri: `${baseUrl}${start}.html`
+      uri: `${baseUrl}${start}.html`,
+      timeout: 5000,
+      resolveWithFullResponse: true
     };
     if (ip) {
       option.proxy = `http://${ip.path}:${ip.port}`;
     }
     let resp = await fetchPage(option).catch(e => {throw "gobaby throw" + e});
-    console.log("1111111111111",resp)
     let dbUrl = { url: url };
     if (!resp.status) {
       Object.assign(dbUrl, {
@@ -166,19 +164,16 @@ async function goBaby (start) {
       dbUrl.times = 1;
       dbUrl.index = start;
     }
-    let msg = `fetch ${resp.uri} ${resp.status} ${resp.err || ""}`;
-    reptileLogger.info(msg);
     await Url(dbUrl).save();
 };
 
 module.exports = async function () {
   let start = await Url.find({}).sort({ "created_at": -1 }).limit(1);
   if (start.length === 0) {
-    start.push({ index: 0 });
+    start.push({ index: 1000 });
   };
   start = start[0].index + 1 || 0;
   while (start) {
-    console.log("lagou data:　", start)
     await goBaby(start);
     start++;
   }

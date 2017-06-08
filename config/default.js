@@ -1,8 +1,10 @@
+const url = "192.168.101.128"
+
 module.exports = {
   debug: true,
   port: 8088,
   mongo: {
-    url: "mongodb://192.168.189.128:27017/lagou"
+    url: `mongodb://${url}:27017/lagou`
   },
   static: "dist",
   log: {
@@ -19,9 +21,10 @@ module.exports = {
     microBlog: 3,
     file: "reptile",
     level: "debug",
-    start: false,
+    begin: true,
     html: false,
     start: 1, // houre
-    stop: 5 // houre
+    stop: 24 // houre
   }
 };
+

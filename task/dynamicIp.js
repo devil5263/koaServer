@@ -1,7 +1,7 @@
 const request = require("request-promise");
 const Proxyips = require("../src/models/proxyip");
 const ping = require("../utils/ping");
-const { consoleLogger } = require("../src/middlewares/logger");
+const { consoleLogger, reptileLogger } = require("../src/middlewares/logger");
 
 const httpProxyApi = "http://api.xicidaili.com/free2016.txt";
 
@@ -46,6 +46,7 @@ async function pingIps () {
             });
             if (index === limitNumber - 1) {
                 consoleLogger.info(`ping ips alive: ${connect.alive}, dead: ${connect.dead}`);
+                reptileLogger.info(`ping ips alive: ${connect.alive}, dead: ${connect.dead}`);
                 reslove(result);
             }
         });
@@ -72,17 +73,18 @@ async function fetchIps () {
                     port: temp[1]
                 });
             });
+            await Proxyips.insertMany(ips, { ordered: false });
+            consoleLogger.info(`fetch ${ips.length} ips done`);
+            reptileLogger.info(`fetch ${ips.length} ips done`);
         } else {
             consoleLogger.info("fetch proxy ips fail");
-            return;
+            reptileLogger.info("fetch proxy ips fail");
         }
     })
-    .catch(() => {
-        consoleLogger.info("fetch dynamicIps error");
-        return;
+    .catch((err) => {
+        consoleLogger.info("fetch dynamicIps error: " + err.name);
+        reptileLogger.info("fetch dynamicIps error: " + err.name);
     });
-    await Proxyips.insertMany(ips, { ordered: false });
-    consoleLogger.info(`fetch ${ips.length} ips done`);
     await testIps();
     await clearPastIps();
 };
@@ -92,6 +94,7 @@ async function clearPastIps () {
     const array = pastIps.map(pastIp => pastIp._id);
     await Proxyips.remove({ _id: { $in: array } });
     consoleLogger.info(`clear ${array.length} past ips done`);
+    reptileLogger.info(`clear ${array.length} past ips done`);
 };
 
 async function getValidIp () {
@@ -102,7 +105,7 @@ async function getValidIp () {
 }
 
 async function updateIp (ip, times) {
-    await Proxyips.findOneAndUpdate({ path: ip }, { $inc: { times: times } });
+    await Proxyips.updateMany({ path: ip }, { $inc: { times: times } });
 }
 
 module.exports = {
