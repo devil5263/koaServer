@@ -1,23 +1,27 @@
 module.exports = {
   debug: true,
   port: 8088,
-  static: "source/",
   mongo: {
-    url: "mongodb://192.168.1.103:27017/lagou"
+    url: "mongodb://192.168.189.128:27017/lagou"
   },
+  static: "dist",
   log: {
     path: ".",
     file: "app",
     level: "debug"
   },
+  dynamicIp: {
+    fetch: 3, // minute
+    test: 1, // minute
+    clear: 3 // minute
+  },
   reptile: {
-    microBlog: 3, // each houre
-    dynamicIp: 30, // each minute
+    microBlog: 3,
     file: "reptile",
     level: "debug",
-    begin: false,
+    start: false,
     html: false,
     start: 1, // houre
-    stop: 24 // houre
+    stop: 5 // houre
   }
 };

@@ -1,14 +1,16 @@
 class CommonError extends Error{
-  constructor(message) {
-    super(message);
-    this.name = this.constructor.name;
-    this.message = message;
-  }
+  constructor(message, code = 200, statusCode = 200) {
+        super(message);
+        this.name = this.constructor.name;
+        this.message = message;
+        this.code = code;
+        this.statusCode = statusCode;
+    }
 }
 
 class MongoDBError extends CommonError {
     constructor(massage = "database operation failed") {
-        super(massage);
+        super(massage, 10001, 200);
     }
 }
 
