@@ -1,17 +1,16 @@
-const request = require("request");
+const request = require("request-promise");
 const cheerio = require("cheerio");
 const Url = require("../src/models/url");
 const Job = require("../src/models/job");
 const fs = require("fs");
 const config = require("config-lite");
 const { consoleLogger, reptileLogger } = require("../src/middlewares/logger");
-const dynamicIp = require("./dynamicIp");
-const schedule = require("node-schedule");
+const { getValidIp, updateIp } = require("./dynamicIp");
 
 const baseUrl = "http://www.lagou.com/jobs/";
 function dataFormate(data) {
   if (!data instanceof Object) {
-    consoleLogger.info("dataFormate need argument is Object");
+    reptileLogger.msg("dataFormate need argument is Object");
     return;
   };
   const newData = Object.assign({}, data);
@@ -45,7 +44,7 @@ function dataFormate(data) {
   };
   if (describle) {
     if (!describle instanceof Array) {
-      consoleLogger.info("describle need argument is Array");
+      reptileLogger.info("describle need argument is Array");
       return;
     };
     newData.describle = [];
@@ -57,7 +56,7 @@ function dataFormate(data) {
   };
   if (request) {
     if (!request instanceof Array) {
-      consoleLogger.info("request need argument is Array");
+      reptileLogger.info("request need argument is Array");
       return;
     };
     newData.request = [];
@@ -70,57 +69,33 @@ function dataFormate(data) {
   return newData;
 };
 
-function httpProxy (option) {
-  return new Promise((resolve, reject) => {
-    let rep = {
-      uri: option.url,
-      status: false,
-      body: null,
-      err: null
-    };
-    try {
-      request(option, (err, resp = {}, body) => {
-        if (err) {
-          rep.err = err;
-          // return reject(rep);
-        }
-        if (!!~[200, 301, 302].indexOf(resp.statusCode)) {
-          rep.status = true;
-          rep.body = body;
-          resolve(rep);
-        } else {
-          // return reject(rep);
-        };
-      });
-    } catch (e) {
-      // return reject(rep);
-    }
-  });
-};
-
 async function fetchPage (option) {
   let rep = {
-    uri: option.url,
+    uri: option.uri,
     status: false,
     body: null,
     err: null
   };
   await request(option)
-    .then(resp => {
+    .then(async (resp) => {
+      if (option.proxy) {
+        await updateIp(option.proxy.split(":")[1].slice(2), 1);
+      }
       if (resp.statusCode === 200) {
         rep.status = true;
         rep.body = resp.body;
-      } else {
-        return;
-      };
+      }
     })
-    .catch(err => {
+    .catch(async (err) => {
+      if (option.proxy && err.name === "RequestError") {
+        await updateIp(option.proxy.split(":")[1].slice(2), -10);
+      }
       rep.err = err.name;
-      return;
     });
-  let msg = `fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
-  reptileLogger.info(msg);
-  return rep;
+    let msg = `proxy: ${option.proxy} fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
+    consoleLogger.info(msg);
+    reptileLogger.info(msg);
+    return rep;
 }
 
 async function fetchData (body, index) {
@@ -162,15 +137,19 @@ async function saveHtml (body, index) {
   });
 };
 
-async function goBaby (start, ips) {
+async function goBaby (start) {
     let url = `${baseUrl}${start}.html`;
-    let ip = ips[start * 10000 % ips.length];
+    let ip = await getValidIp();
     const option = {
       method: "GET",
-      url: `${baseUrl}${start}.html`,
-      proxy: `http://${ip.path}:${ip.port}`
+      uri: `${baseUrl}${start}.html`,
+      timeout: 5000,
+      resolveWithFullResponse: true
     };
-    let resp = await httpProxy(option);
+    if (ip) {
+      option.proxy = `http://${ip.path}:${ip.port}`;
+    }
+    let resp = await fetchPage(option).catch(e => {throw "gobaby throw" + e});
     let dbUrl = { url: url };
     if (!resp.status) {
       Object.assign(dbUrl, {
@@ -185,28 +164,17 @@ async function goBaby (start, ips) {
       dbUrl.times = 1;
       dbUrl.index = start;
     }
-    let msg = `fetch ${resp.uri} ${resp.status} ${resp.err || ""}`;
-    console.log(msg)
-    reptileLogger.info(msg);
     await Url(dbUrl).save();
 };
 
 module.exports = async function () {
   let start = await Url.find({}).sort({ "created_at": -1 }).limit(1);
-  let ips = schedule.scheduleJob(`* ${config.reptile.dynamicIp} * * * *`, await dynamicIp()).job;
-  const startDate = new Date();
-  const endDate = new Date(startDate.getTime() +
-    (config.reptile.stop - config.reptile.start) * 3600 * 1000);
   if (start.length === 0) {
-    start.push({ index: 0 });
+    start.push({ index: 1000 });
   };
   start = start[0].index + 1 || 0;
   while (start) {
-    await goBaby(start, ips);
-    if (new Date().getTime() <= endDate.getTime) {
-      start++;
-    } else {
-      start = null;
-    }
+    await goBaby(start);
+    start++;
   }
 };

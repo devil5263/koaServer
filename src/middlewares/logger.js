@@ -26,7 +26,7 @@ const fileLogger = tracer.console({
 });
 
 const reptileLogger = tracer.console({
-  level: config.reptile.level,
+  level: config.log.level,
   transport: (data) => {
     const file = `${config.log.path}/reptile.${moment().format("YYYYMMDD")}.log`;
     fs.appendFile(file, data.output + "\n", (err) => {

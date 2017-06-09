@@ -16,6 +16,7 @@ module.exports = async () => {
         let hots = resp.body.match(/"list.*\}\]/g);
         hots = decode(hots[0]);
         hots = JSON.parse("{" + hots + "}");
+        consoleLogger.info("fetch microblog hot done");
         await Microbloghot({ hots: hots.list }).save();
     }).catch(err => {
         consoleLogger.info(err);
