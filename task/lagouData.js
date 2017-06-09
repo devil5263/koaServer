@@ -88,10 +88,10 @@ async function fetchPage (option) {
     })
     .catch(async (err) => {
       if (option.proxy && err.name === "RequestError") {
-        await updateIp(option.proxy.split(":")[1].slice(2), -2);
+        await updateIp(option.proxy.split(":")[1].slice(2), -10);
       }
       rep.err = err.name;
-    })
+    });
     let msg = `proxy: ${option.proxy} fetch ${rep.uri} ${rep.status} ${rep.err || ""}`;
     consoleLogger.info(msg);
     reptileLogger.info(msg);

@@ -1,4 +1,4 @@
-const url = "192.168.101.128"
+const url = "192.168.101.128";
 
 module.exports = {
   debug: true,
@@ -13,8 +13,8 @@ module.exports = {
     level: "debug"
   },
   dynamicIp: {
-    fetch: 3, // minute
-    test: 1, // minute
+    fetch: 1, // minute
+    test: 2, // minute
     clear: 3 // minute
   },
   reptile: {
@@ -22,9 +22,7 @@ module.exports = {
     file: "reptile",
     level: "debug",
     begin: true,
-    html: false,
-    start: 1, // houre
-    stop: 24 // houre
+    html: false
   }
 };
 

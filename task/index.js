@@ -11,12 +11,8 @@ module.exports = function() {
     };
 
     // second minute hour day-month month day-week
-    schedule.scheduleJob(`* ${config.dynamicIp.fetch} * * * *`, fetchIps);
+    schedule.scheduleJob(`0 ${config.dynamicIp.fetch} * * * *`, fetchIps);
     schedule.scheduleJob(`* ${config.dynamicIp.test} * * * *`, testIps);
-    schedule.scheduleJob(`* ${config.dynamicIp.clear} * * * *`, clearPastIps);
-    schedule.scheduleJob(`* * ${config.reptile.microBlog} * * *`, microBlog);
-    // if (config.reptile.begin) {
-    //      schedule.scheduleJob({ start: config.reptile.start, end: config.reptile.stop,
-    //           rule: "* * */1 * * *" }, lagouData);
-    // };
+    schedule.scheduleJob(`59 ${config.dynamicIp.clear} * * * *`, clearPastIps);
+    schedule.scheduleJob(`0 0 ${config.reptile.microBlog} * * *`, microBlog);
 };
