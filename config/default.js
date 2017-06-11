@@ -13,6 +13,7 @@ module.exports = {
     level: "debug"
   },
   dynamicIp: {
+    begin: false,
     fetch: 1, // minute
     test: 2, // minute
     clear: 3 // minute
