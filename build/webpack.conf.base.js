@@ -5,15 +5,6 @@ const CleanWebpackPlugin = require("clean-webpack-plugin"); // 清除打包出�
 const ExtractTextPlugin = require("extract-text-webpack-plugin"); // 提取css
 
 const root = path.resolve(__dirname, "../source");
-const vue = {
-    loader: {
-      css: ExtractTextPlugin.extract({
-          fallback: 'vue-style-loader',
-          //resolve-url-loader may be chained before sass-loader if necessary 
-          use: ['css-loader', 'sass-loader']
-      })
-    }
-  }
 const config = {
   entry: { // 入口文件
     vendor: ["vue", "vue-router"],
@@ -76,7 +67,7 @@ const config = {
       root: path.resolve(__dirname, "../")
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
+      name: "vendor"
     }),
     new HtmlWebpackPlugin({
       template: `${root}/index.html`,

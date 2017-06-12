@@ -4,8 +4,8 @@ const config = require("config-lite");
 const microBlog = require("./microBlog");
 const { fetchIps, testIps, clearPastIps } = require("./dynamicIp");
 
-module.exports = function() {
-    
+module.exports = async function() {
+
     // second minute hour day-month month day-week
 
     if (config.reptile.begin){
@@ -13,7 +13,7 @@ module.exports = function() {
     };
 
     if (config.dynamicIp.begin){
-        fetchIps();
+        await fetchIps();
         schedule.scheduleJob(`0 ${config.dynamicIp.fetch} * * * *`, fetchIps);
         schedule.scheduleJob(`* ${config.dynamicIp.test} * * * *`, testIps);
         schedule.scheduleJob(`59 ${config.dynamicIp.clear} * * * *`, clearPastIps);

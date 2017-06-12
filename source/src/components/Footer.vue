@@ -1,16 +1,23 @@
 <template>
   <footer>
-    <!--<img  src="../assets/imges/template/todo.png">
-    <img  src="../assets/imges/template/home.png">
-    <img  src="../assets/imges/template/user.png">-->
-    <span class="glyphicon glyphicon-calendar"></span>
-    <span class="glyphicon glyphicon-home"></span>
-    <span class="glyphicon glyphicon-user"></span>
+    <span v-on:click="switchPage('todo')" :class="selected === 'todo'?'footer-selected':''" class="glyphicon glyphicon-calendar"></span>
+    <span v-on:click="switchPage('home')" :class="selected === 'home'?'footer-selected':''" class="glyphicon glyphicon-home"></span>
+    <span v-on:click="switchPage('user')" :class="selected === 'user'?'footer-selected':''" class="glyphicon glyphicon-user"></span>
   </footer>
 </template>
 <script>
   export default {
     name: "Footer",
+    data () {
+      return {
+        selected: "home"
+      }
+    },
+    methods: {
+      switchPage: function (page) {
+        this.selected = page;
+      }
+    }
   }
 </script>
 <style lang="sass">
@@ -31,5 +38,8 @@
   footer span {
     font-size: 26px;
     text-align: center
+  }
+  .footer-selected {
+    color: #607D8B;
   }
 </style>

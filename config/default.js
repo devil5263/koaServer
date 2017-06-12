@@ -22,7 +22,7 @@ module.exports = {
     microBlog: 3,
     file: "reptile",
     level: "debug",
-    begin: true,
+    begin: false,
     html: false
   }
 };
