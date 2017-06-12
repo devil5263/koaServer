@@ -1,15 +1,11 @@
 <template>
-  <h1>Hello Leo</h1>
+  <h1>{{msg}}</h1>
 </template>
 
 <script>
 export default {
-  name: "hello",
-  data () {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    }
-  }
+  name: "Error",
+  props: ["msg"]
 }
 </script>
 

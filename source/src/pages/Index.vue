@@ -1,6 +1,6 @@
 <template>
   <div>
-    <comp-header title="首页" back=true></comp-header>
+    <comp-header title="首页" back='false'></comp-header>
     <div class="jumbotron index-text-area">
       <div class="container">
         <ul class="list-group">
@@ -25,7 +25,7 @@
       return {
         navs: [{
           src: require("../assets/imges/template/hot.png"),
-          path: "#",
+          path: "/bloghot",
           alt: "微博热门"
         },{
           src: require("../assets/imges/template/work.png"),

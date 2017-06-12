@@ -1,13 +1,18 @@
 <template>
   <header>
-    <span v-if="back == true" class="glyphicon glyphicon-menu-left"></span>
+    <span v-on:click="backHandle" :class="back === 'false'?'back-hidden':''" class="glyphicon glyphicon-menu-left back"></span>
     <span>{{title}}</span>
   </header>
 </template>
 <script>
   export default {
     name: "Header",
-    props: ["title", "back"]
+    props: ["title", "back"],
+    methods: {
+      backHandle: function() {
+        window.history.go(-1)
+      }
+    }
   }
 </script>
 <style lang="sass">
@@ -21,5 +26,12 @@
     text-align: center;
     color: #ffffff;
     background-color: $base-bg;
+    .back {
+      float: left;
+      transform: translate(10px, 10px)
+    }
+    .back-hidden {
+      display: none;
+    }
   }
 </style>

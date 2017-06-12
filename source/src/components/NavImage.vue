@@ -1,9 +1,9 @@
 <template>
     <div class="nav-image">
-        <a :herf="path">
+        <router-link :to="path">
             <img :src="src" :alt="alt" class="img-rounded nav-img"><br/>
             <span>{{alt}}</span>
-        </a>
+        </router-link>
     </div>
 </template>
 <script>
