@@ -4,8 +4,8 @@
     <div class="jumbotron index-text-area">
       <div class="container">
         <ul class="list-group">
-          <li class="index-list-hot" v-for="hot in hots">HOTS: {{hot}}</li>
-          <li class="index-list-todo" v-for="todo in todos">TODO: {{todo}}</li>
+          <li class="index-list-hot" v-for="hot in hots"><span style="color:#2196f3">HOTS: </span>{{hot}}</li>
+          <li class="index-list-todo" v-for="todo in todos"><span style="color:red">TODOS: </span>{{todo}}</li>
         </ul>
       </div>
     </div>
@@ -76,6 +76,7 @@
       border: 0px;
       border-bottom: 1px solid #ddd;
       padding: 4px 0px;
+      color: #9e9e9e;
     }
   }
   .nav-content {
@@ -84,11 +85,5 @@
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0px 5px 5px 0px rgba(134, 125, 125, 0.4);
-  }
-  .index-list-hot {
-    color: #9e9e9e;
-  }
-  .index-list-todo {
-    color: red;
   }
 </style>
