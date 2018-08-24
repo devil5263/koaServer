@@ -13,8 +13,7 @@
     "docs": "apidoc -i src/routers -o docs"
   },
   "repository": {
-    "type": "git",
-    "url": "git@gitlab.saas.com:xieguodong/cooperation_association.git"
+    "type": "git"
   },
   "pre-commit": [
     "test",
